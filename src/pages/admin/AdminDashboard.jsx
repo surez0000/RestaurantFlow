@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Row, Col, Card, Statistic, Typography, Table, Tag, Progress } from 'antd';
-import { ArrowUpOutlined, ArrowDownOutlined, UserOutlined, ShoppingCartOutlined, DollarCircleOutlined, TeamOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { ArrowUpOutlined, ArrowDownOutlined, UserOutlined, ShoppingCartOutlined, DollarCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { ThemeContext } from '../../contexts/ThemeContext';
 
 const { Title, Text } = Typography;
@@ -14,14 +14,6 @@ const mockSalesData = [
   { name: 'Fri', sales: 1890, orders: 48, profit: 1100 },
   { name: 'Sat', sales: 6390, orders: 98, profit: 4500 },
   { name: 'Sun', sales: 5490, orders: 73, profit: 3490 },
-];
-
-const topSellingItemsData = [
-  { name: 'Margherita Pizza', sold: 120, revenue: 1800 },
-  { name: 'Beef Burger', sold: 95, revenue: 1330 },
-  { name: 'Chicken Wings', sold: 80, revenue: 1000 },
-  { name: 'Spring Rolls', sold: 70, revenue: 629.3 },
-  { name: 'Coca-Cola', sold: 150, revenue: 375 },
 ];
 
 const orderTypeData = [

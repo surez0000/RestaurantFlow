@@ -1,7 +1,7 @@
 // src/pages/admin/AdminMenuManagementPage.jsx
 import React, { useState, useEffect, useContext } from 'react';
 import { Table, Button, Modal, Form, Input, InputNumber, Select, Switch, Tag, Space, Typography, Upload, message, Popconfirm, Spin, Card, Row, Col, Divider, Tooltip, Checkbox, Avatar, Tabs } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined, FilterOutlined, TagsOutlined, MinusCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined, FilterOutlined, TagsOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import './AdminMenuManagement.css'; // Ensure this CSS file exists or create it
 
