@@ -5,7 +5,7 @@ import { Layout, Menu, Switch, ColorPicker, Typography, Space, Button, Spin, Res
 import {
   HomeOutlined, MenuOutlined as MenuIcon, ShoppingCartOutlined, UserOutlined,
   DashboardOutlined, SettingOutlined, LogoutOutlined, UnorderedListOutlined,
-  DesktopOutlined, ShopOutlined, SolutionOutlined, HistoryOutlined,
+  DesktopOutlined, ShopOutlined, SolutionOutlined, HistoryOutlined, TableOutlined,
   TeamOutlined, CalendarOutlined // Added TeamOutlined, CalendarOutlined
 } from '@ant-design/icons';
 
@@ -25,6 +25,7 @@ import AdminMenuManagementPage from './pages/admin/AdminMenuManagementPage';
 import WaiterTableViewPage from './pages/admin/WaiterTableViewPage';
 import AdminStaffManagementPage from './pages/admin/AdminStaffManagementPage'; // New
 import AdminReservationManagementPage from './pages/admin/AdminReservationManagementPage'; // New
+import TableManagementPage from './pages/admin/TableManagementPage'; // New
 import AdminSettingsPage from './pages/admin/AdminSettingsPage';
 import WaiterTakeOrderPage from './pages/admin/WaiterTakeOrderPage';
 
@@ -192,6 +193,7 @@ const AdminLayout = ({ user, onLogout }) => {
         { key: 'orders', icon: <ShoppingCartOutlined />, label: <Link to="orders">Order Management</Link> },
         { key: 'menu-mgmt', icon: <MenuIcon />, label: <Link to="menu-mgmt">Menu Management</Link> },
         { key: 'tables', icon: <DesktopOutlined />, label: <Link to="tables">Table View</Link> },
+        { key: 'table-mgmt', icon: <TableOutlined />, label: <Link to="table-mgmt">Table Management</Link> },
         { key: 'reservations-mgmt', icon: <CalendarOutlined />, label: <Link to="reservations-mgmt">Reservations</Link> },
         { key: 'staff-mgmt', icon: <TeamOutlined />, label: <Link to="staff-mgmt">Staff Management</Link> },
         { key: 'settings', icon: <SettingOutlined />, label: <Link to="settings">Settings</Link> }
@@ -253,6 +255,7 @@ const AdminLayout = ({ user, onLogout }) => {
               {user.role === 'manager' && <Route path="menu-mgmt" element={<AdminMenuManagementPage />} />}
               {user.role === 'manager' && <Route path="staff-mgmt" element={<AdminStaffManagementPage />} />}
               {user.role === 'manager' && <Route path="reservations-mgmt" element={<AdminReservationManagementPage />} />}
+              {user.role === 'manager' && <Route path="table-mgmt" element={<TableManagementPage />} />}
               {user.role === 'manager' && <Route path="settings" element={<AdminSettingsPage />} />}
 
               {user.role === 'chef' && <Route path="menu-availability" element={<ChefMenuAvailabilityPage />} />}
