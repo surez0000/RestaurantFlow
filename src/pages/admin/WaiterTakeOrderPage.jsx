@@ -1,7 +1,7 @@
 // src/pages/admin/WaiterTakeOrderPage.jsx
 import React, { useState, useEffect, useContext } from 'react';
 import { Row, Col, Card, Typography, Select, Input, Button, List, Avatar, InputNumber, Divider, Empty, message, Spin, Tag, Popconfirm, Tabs, Tooltip, Form, Modal } from 'antd';
-import { PlusOutlined, MinusOutlined, DeleteOutlined, SendOutlined, UserOutlined, PercentageOutlined, EditOutlined, TagsOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { PlusOutlined, MinusOutlined, DeleteOutlined, SendOutlined, UserOutlined, PercentageOutlined, EditOutlined, TagsOutlined,MinusOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import { useCart } from '../../contexts/CartContext'; // We can use its structure for inspiration but this is a separate order
