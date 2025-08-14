@@ -157,8 +157,8 @@ const WaiterTableViewPage = () => {
                 <QRCode 
                     value={`${window.location.origin}/customer/menu?table=${selectedTableForQr.id}`} // Example URL
                     size={200}
-                    bgColor={isDarkMode ? "#333" : "#fff"}
-                    fgColor={isDarkMode ? "#fff" : "#000"}
+                    bgColor={isDarkMode ? '#333' : '#fff'}
+                    fgColor={isDarkMode ? '#fff' : '#000'}
                 />
                 <Paragraph style={{marginTop: '15px'}}>
                     Scan this QR code to view the menu and order for Table {selectedTableForQr.number}.
