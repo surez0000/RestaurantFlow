@@ -1,7 +1,7 @@
 // src/pages/admin/TableManagementPage.jsx
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { Card, Row, Col, Typography, Button, Select, Space, Modal, Form, Input, InputNumber, message, Tag, Tabs, Switch, Tooltip, Popover, Badge } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, DragOutlined, ExpandOutlined, CompressOutlined, EyeOutlined, SettingOutlined, TableOutlined, UserOutlined, DollarOutlined, ClockCircleOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, DragOutlined, ExpandOutlined, CompressOutlined, EyeOutlined, SettingOutlined, TableOutlined, UserOutlined,MinusOutlined, DollarOutlined, ClockCircleOutlined } from '@ant-design/icons';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import './TableManagementPage.css';
 
