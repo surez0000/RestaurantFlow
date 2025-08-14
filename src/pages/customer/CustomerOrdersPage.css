@@ -1,0 +1,46 @@
+/* src/pages/customer/CustomerOrdersPage.css */
+.customer-orders-page {
+  padding: 20px;
+}
+
+.order-history-card {
+  transition: box-shadow 0.3s ease;
+  border-radius: 8px;
+}
+
+.order-history-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.order-history-card .ant-card-head {
+    padding: 0 16px; /* Adjust padding for card head */
+    border-bottom: 1px solid #f0f0f0; /* Add a subtle border */
+}
+.order-history-card .ant-card-head-title,
+.order-history-card .ant-card-extra {
+    padding: 12px 0; /* Adjust padding for card head title and extra */
+}
+.order-history-card .ant-card-body {
+    padding: 16px;
+}
+
+.order-history-card .ant-descriptions-item-label {
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.65);
+}
+.order-history-card .ant-descriptions-item-content {
+    font-weight: 500;
+}
+
+.dark .order-history-card .ant-descriptions-item-label {
+    color: rgba(255, 255, 255, 0.65);
+}
+.dark .order-history-card .ant-card-head {
+    border-bottom: 1px solid #303030;
+}
+
+
+/* Feedback Modal */
+.ant-modal-body .ant-rate {
+    font-size: 24px; /* Make stars a bit bigger */
+}

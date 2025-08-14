@@ -1,0 +1,75 @@
+/* src/pages/admin/WaiterTableViewPage.css */
+.waiter-table-view-page {
+  padding: 20px;
+}
+
+.table-card {
+  border-width: 2px !important;
+  border-style: solid !important;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.table-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+}
+
+.table-card .ant-card-body {
+    padding: 12px !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 150px; /* Ensure consistent height */
+    justify-content: space-between;
+}
+
+.table-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.table-number {
+  margin: 0 !important;
+  font-size: 1.5em !important;
+}
+
+.table-status-tag {
+  font-size: 0.9em;
+  padding: 2px 8px;
+}
+
+.table-card-body {
+  font-size: 0.9em;
+  flex-grow: 1;
+}
+.table-card-body .ant-typography {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.table-card-footer {
+    margin-top: 10px;
+    text-align: right;
+}
+
+/* Specific status styling (optional, colors are primarily from border) */
+.table-status-available:hover {
+  /* box-shadow: 0 0 10px rgba(0, 255, 0, 0.3); */
+}
+.table-status-occupied:hover {
+  /* box-shadow: 0 0 10px rgba(24, 144, 255, 0.3); */ /* Ant Design primary blue */
+}
+.table-status-needs-attention:hover {
+   /* box-shadow: 0 0 10px rgba(255, 0, 0, 0.3); */
+}
+
+/* QR Code Modal styling */
+.ant-modal-body .ant-typography-copy {
+    color: #1890ff; /* Ant Design default link color */
+    cursor: pointer;
+}
+.ant-modal-body .ant-typography-copy:hover {
+    text-decoration: underline;
+}

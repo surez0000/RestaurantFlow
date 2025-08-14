@@ -1,0 +1,87 @@
+/* src/pages/customer/CustomerMenu.css */
+.customer-menu-page {
+  padding: 20px;
+}
+
+.menu-item-card {
+  transition: all 0.3s ease-in-out;
+  border-radius: 8px;
+  overflow: hidden; /* Ensures cover image respects border radius */
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Make cards in a row same height */
+}
+
+.menu-item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.08);
+}
+.dark .menu-item-card:hover {
+  box-shadow: 0 10px 20px rgba(255,255,255,0.08), 0 4px 8px rgba(255,255,255,0.05);
+}
+
+
+.menu-item-image {
+  height: 180px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.ant-card-body {
+  padding: 16px !important; /* Adjust padding for card body */
+  flex-grow: 1; /* Allows description to take up space */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.ant-card-meta-title .ant-typography {
+    margin-bottom: 4px !important; /* Reduce space below title */
+}
+
+.menu-item-description {
+  font-size: 0.9em;
+  color: #555;
+  min-height: 36px; /* Ensure space for at least two lines */
+  margin-bottom: 8px !important;
+}
+.dark .menu-item-description {
+  color: #ccc;
+}
+
+.ant-card-actions {
+  display: flex;
+  justify-content: space-around !important; /* Ensure items are spaced */
+  align-items: center;
+  padding: 8px 0 !important;
+  border-top: 1px solid #f0f0f0;
+}
+.dark .ant-card-actions {
+    border-top: 1px solid #303030;
+}
+
+.ant-card-actions > li {
+  margin: 0 !important; /* Remove default Antd margins for li in actions */
+  flex: 1; /* Make action items take equal space */
+  text-align: center;
+}
+
+.ant-card-actions > li > .ant-btn-block {
+    margin: 0 12px; /* Add some horizontal margin to block buttons */
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .customer-menu-page .ant-select, .customer-menu-page .ant-input-search {
+      margin-bottom: 10px;
+  }
+  .menu-item-image {
+    height: 150px;
+  }
+  .ant-card-body {
+    padding: 12px !important;
+  }
+  .customer-menu-page .ant-badge { /* Adjust badge positioning on mobile */
+    display: block;
+    margin-top: 10px;
+  }
+}

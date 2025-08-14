@@ -1,0 +1,25 @@
+/* src/pages/admin/AdminMenuManagement.css */
+.admin-menu-management-page .ant-table-cell {
+    vertical-align: middle;
+}
+
+.admin-menu-management-page .ant-avatar-square {
+    border-radius: 4px;
+}
+
+.menu-item-modal-form .ant-tabs-tabpane {
+    max-height: 55vh; /* Or adjust as needed */
+    overflow-y: auto;
+    padding-right: 10px; /* For scrollbar */
+}
+
+.menu-item-modal-form .ant-card-small > .ant-card-head {
+    padding: 0 12px;
+    min-height: 38px;
+}
+.menu-item-modal-form .ant-card-small > .ant-card-body {
+    padding: 12px;
+}
+.menu-item-modal-form .ant-divider-horizontal.ant-divider-with-text-left {
+    margin: 12px 0;
+}

@@ -1,0 +1,62 @@
+/* src/pages/admin/WaiterTakeOrderPage.css */
+.waiter-take-order-page {
+  padding: 20px;
+}
+
+/* Menu Item Card in Order Taking View */
+.menu-item-order-card .ant-card-body {
+  padding: 10px !important;
+  text-align: center;
+  cursor: pointer;
+}
+.menu-item-order-card .ant-card-cover img {
+  height: 100px;
+  object-fit: cover;
+}
+.menu-item-order-card .ant-card-meta-title {
+  font-size: 0.9em;
+  margin-bottom: 2px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Ensures long names don't break layout */
+}
+.menu-item-order-card .ant-card-meta-description {
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+/* Current Order Card */
+.current-order-card .ant-card-body {
+  max-height: calc(100vh - 250px); /* Adjust based on your header/footer height */
+  overflow-y: auto;
+}
+
+.order-item-list .ant-list-item {
+  padding: 8px 0; /* Compact list items */
+}
+.order-item-list .ant-list-item-meta-title {
+  margin-bottom: 0 !important;
+}
+.order-item-list .ant-list-item-meta-description {
+    font-size: 0.85em;
+    line-height: 1.2;
+}
+
+.order-item-controls {
+  display: flex;
+  align-items: center;
+  margin: 0 10px;
+}
+.order-item-controls .ant-input-number {
+    text-align: center;
+}
+
+/* Make the right column (order summary) sticky if desired and on larger screens */
+@media (min-width: 768px) { /* md breakpoint */
+  .current-order-card {
+    position: sticky;
+    top: 88px; /* Adjust if your admin header height changes */
+    /* max-height: calc(100vh - 100px); 
+    overflow-y: auto; */
+  }
+}
