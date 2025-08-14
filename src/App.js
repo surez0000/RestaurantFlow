@@ -191,37 +191,24 @@ const AdminLayout = ({ user, onLogout }) => {
     if (role === 'manager') {
       baseItems.push(
         { key: 'dashboard', icon: <DashboardOutlined />, label: <Link to="dashboard">Dashboard</Link> },
-        }
         { key: 'orders', icon: <ShoppingCartOutlined />, label: <Link to="orders">Order Management</Link> },
-        }
         { key: 'menu-mgmt', icon: <MenuIcon />, label: <Link to="menu-mgmt">Menu Management</Link> },
-        }
         { key: 'tables', icon: <DesktopOutlined />, label: <Link to="tables">Table View</Link> },
-        }
         { key: 'table-mgmt', icon: <TableOutlined />, label: <Link to="table-mgmt">Table Management</Link> },
-        }
         { key: 'reservations-mgmt', icon: <CalendarOutlined />, label: <Link to="reservations-mgmt">Reservations</Link> },
-        }
         { key: 'staff-mgmt', icon: <TeamOutlined />, label: <Link to="staff-mgmt">Staff Management</Link> },
-        }
         { key: 'settings', icon: <SettingOutlined />, label: <Link to="settings">Settings</Link> }
-        }
       );
     } else if (role === 'chef') {
          baseItems.push(
             { key: 'orders', icon: <ShoppingCartOutlined />, label: <Link to="orders">Kitchen Orders</Link> },
-            }
             { key: 'menu-availability', icon: <MenuIcon />, label: <Link to="menu-availability">Menu Availability</Link> }
-            }
          );
     } else if (role === 'waiter') {
         baseItems.push(
             { key: 'tables', icon: <DesktopOutlined />, label: <Link to="tables">Table View</Link> },
-            }
             { key: 'take-order', icon: <ShopOutlined />, label: <Link to="take-order">Take Order</Link> },
-            }
             { key: 'orders', icon: <ShoppingCartOutlined />, label: <Link to="orders">Current Orders</Link> }
-            }
         );
     }
     return baseItems;
