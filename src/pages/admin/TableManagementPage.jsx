@@ -346,7 +346,7 @@ const TableManagementPage = () => {
         gap: '8px'
       }}>
         <Button icon={<PlusOutlined />} size="small" />
-        <Button icon={<MinusOutlined />} size="small" />
+        <Button size="small" >-</Button>
         <Button icon={<ExpandOutlined />} size="small" title="Scaled to fit" />
       </div>
     </div>
