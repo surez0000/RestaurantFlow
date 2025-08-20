@@ -6,7 +6,7 @@ import {
   HomeOutlined, MenuOutlined as MenuIcon, ShoppingCartOutlined, UserOutlined,
   DashboardOutlined, SettingOutlined, LogoutOutlined, UnorderedListOutlined,
   DesktopOutlined, ShopOutlined, SolutionOutlined, HistoryOutlined, TableOutlined,
-  TeamOutlined, CalendarOutlined // Added TeamOutlined, CalendarOutlined
+  TeamOutlined, CalendarOutlined, InboxOutlined // Added TeamOutlined, CalendarOutlined, InboxOutlined
 } from '@ant-design/icons';
 
 import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
@@ -26,6 +26,7 @@ import WaiterTableViewPage from './pages/admin/WaiterTableViewPage';
 import AdminStaffManagementPage from './pages/admin/AdminStaffManagementPage'; // New
 import AdminReservationManagementPage from './pages/admin/AdminReservationManagementPage'; // New
 import TableManagementPage from './pages/admin/TableManagementPage'; // New
+import AdminInventoryManagementPage from './pages/admin/AdminInventoryManagementPage'; // New
 import AdminSettingsPage from './pages/admin/AdminSettingsPage';
 import WaiterTakeOrderPage from './pages/admin/WaiterTakeOrderPage';
 
@@ -193,6 +194,7 @@ const AdminLayout = ({ user, onLogout }) => {
       { key: 'dashboard', icon: <DashboardOutlined />, label: <Link to="dashboard">Dashboard</Link> },
       { key: 'orders', icon: <ShoppingCartOutlined />, label: <Link to="orders">Order Management</Link> },
       { key: 'menu-mgmt', icon: <MenuIcon />, label: <Link to="menu-mgmt">Menu Management</Link> },
+      { key: 'inventory-mgmt', icon: <InboxOutlined />, label: <Link to="inventory-mgmt">Inventory Management</Link> },
       { key: 'tables', icon: <DesktopOutlined />, label: <Link to="tables">Table View</Link> },
       { key: 'table-mgmt', icon: <TableOutlined />, label: <Link to="table-mgmt">Table Management</Link> },
       { key: 'reservations-mgmt', icon: <CalendarOutlined />, label: <Link to="reservations-mgmt">Reservations</Link> },
@@ -202,6 +204,7 @@ const AdminLayout = ({ user, onLogout }) => {
   } else if (role === 'chef') {
     baseItems.push(
       { key: 'orders', icon: <ShoppingCartOutlined />, label: <Link to="orders">Kitchen Orders</Link> },
+      { key: 'inventory-mgmt', icon: <InboxOutlined />, label: <Link to="inventory-mgmt">Inventory</Link> },
       { key: 'menu-availability', icon: <MenuIcon />, label: <Link to="menu-availability">Menu Availability</Link> },
     );
   } else if (role === 'waiter') {
@@ -256,6 +259,7 @@ const AdminLayout = ({ user, onLogout }) => {
             <Routes>
               {user.role === 'manager' && <Route path="dashboard" element={<AdminDashboardPage />} />}
               {user.role === 'manager' && <Route path="menu-mgmt" element={<AdminMenuManagementPage />} />}
+              {(user.role === 'manager' || user.role === 'chef') && <Route path="inventory-mgmt" element={<AdminInventoryManagementPage />} />}
               {user.role === 'manager' && <Route path="staff-mgmt" element={<AdminStaffManagementPage />} />}
               {user.role === 'manager' && <Route path="reservations-mgmt" element={<AdminReservationManagementPage />} />}
               {user.role === 'manager' && <Route path="table-mgmt" element={<TableManagementPage />} />}
