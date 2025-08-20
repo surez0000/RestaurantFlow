@@ -149,7 +149,6 @@ const CustomerLayout = ({ user, onLogout }) => {
             <Badge count={getCartTotalItems()} size="small" offset={[2, -3]}>
               <ShoppingCartOutlined />
             </Badge>}
-          }
           >
             <Link to="cart">Cart</Link>
           </Menu.Item>
