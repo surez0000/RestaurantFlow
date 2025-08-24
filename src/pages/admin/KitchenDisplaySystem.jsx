@@ -20,11 +20,12 @@ const mockKitchenOrders = [
     estimatedTime: 15,
     priority: 'normal',
     status: 'preparing',
-    station: 'hot',
+    cuisine: 'continental',
+    assignedChef: 'chef1',
     items: [
-      { id: 1, name: 'Margherita Pizza', quantity: 1, notes: 'Extra basil', station: 'hot', prepTime: 12, status: 'preparing' },
-      { id: 2, name: 'Caesar Salad', quantity: 1, notes: 'No croutons', station: 'cold', prepTime: 5, status: 'ready' },
-      { id: 3, name: 'Garlic Bread', quantity: 2, notes: '', station: 'hot', prepTime: 8, status: 'preparing' }
+      { id: 1, name: 'Margherita Pizza', quantity: 1, notes: 'Extra basil', station: 'hot', cuisine: 'continental', assignedChef: 'chef1', prepTime: 12, status: 'preparing' },
+      { id: 2, name: 'Caesar Salad', quantity: 1, notes: 'No croutons', station: 'cold', cuisine: 'continental', assignedChef: 'chef1', prepTime: 5, status: 'ready' },
+      { id: 3, name: 'Garlic Bread', quantity: 2, notes: '', station: 'hot', cuisine: 'continental', assignedChef: 'chef1', prepTime: 8, status: 'preparing' }
     ],
     specialInstructions: 'Customer has nut allergy',
     allergens: ['nuts']
@@ -38,11 +39,12 @@ const mockKitchenOrders = [
     estimatedTime: 20,
     priority: 'rush',
     status: 'new',
-    station: 'hot',
+    cuisine: 'chinese',
+    assignedChef: 'chef2',
     items: [
-      { id: 4, name: 'Beef Burger', quantity: 1, notes: 'Medium rare', station: 'hot', prepTime: 15, status: 'new' },
-      { id: 5, name: 'French Fries', quantity: 1, notes: 'Extra crispy', station: 'hot', prepTime: 8, status: 'new' },
-      { id: 6, name: 'Chocolate Shake', quantity: 1, notes: '', station: 'cold', prepTime: 3, status: 'new' }
+      { id: 4, name: 'Sweet & Sour Chicken', quantity: 1, notes: 'Extra sauce', station: 'hot', cuisine: 'chinese', assignedChef: 'chef2', prepTime: 15, status: 'new' },
+      { id: 5, name: 'Fried Rice', quantity: 1, notes: 'No egg', station: 'hot', cuisine: 'chinese', assignedChef: 'chef2', prepTime: 8, status: 'new' },
+      { id: 6, name: 'Spring Rolls', quantity: 2, notes: '', station: 'hot', cuisine: 'chinese', assignedChef: 'chef2', prepTime: 10, status: 'new' }
     ],
     specialInstructions: '',
     allergens: []
@@ -56,11 +58,12 @@ const mockKitchenOrders = [
     estimatedTime: 25,
     priority: 'overdue',
     status: 'ready',
-    station: 'hot',
+    cuisine: 'indian',
+    assignedChef: 'chef3',
     items: [
-      { id: 7, name: 'Grilled Salmon', quantity: 1, notes: 'Well done', station: 'hot', prepTime: 18, status: 'ready' },
-      { id: 8, name: 'Steamed Vegetables', quantity: 1, notes: '', station: 'hot', prepTime: 10, status: 'ready' },
-      { id: 9, name: 'Rice Pilaf', quantity: 1, notes: '', station: 'hot', prepTime: 12, status: 'ready' }
+      { id: 7, name: 'Chicken Tikka Masala', quantity: 1, notes: 'Medium spicy', station: 'hot', cuisine: 'indian', assignedChef: 'chef3', prepTime: 18, status: 'ready' },
+      { id: 8, name: 'Basmati Rice', quantity: 1, notes: '', station: 'hot', cuisine: 'indian', assignedChef: 'chef3', prepTime: 10, status: 'ready' },
+      { id: 9, name: 'Naan Bread', quantity: 2, notes: 'Garlic naan', station: 'hot', cuisine: 'indian', assignedChef: 'chef3', prepTime: 12, status: 'ready' }
     ],
     specialInstructions: 'Delivery address: 123 Main St',
     allergens: []
@@ -75,10 +78,11 @@ const mockKitchenOrders = [
     estimatedTime: 10,
     priority: 'normal',
     status: 'new',
-    station: 'cold',
+    cuisine: 'continental',
+    assignedChef: 'chef1',
     items: [
-      { id: 10, name: 'Greek Salad', quantity: 1, notes: 'Extra feta', station: 'cold', prepTime: 6, status: 'new' },
-      { id: 11, name: 'Hummus Platter', quantity: 1, notes: '', station: 'cold', prepTime: 4, status: 'new' }
+      { id: 10, name: 'Greek Salad', quantity: 1, notes: 'Extra feta', station: 'cold', cuisine: 'continental', assignedChef: 'chef1', prepTime: 6, status: 'new' },
+      { id: 11, name: 'Hummus Platter', quantity: 1, notes: '', station: 'cold', cuisine: 'continental', assignedChef: 'chef1', prepTime: 4, status: 'new' }
     ],
     specialInstructions: '',
     allergens: []
@@ -93,28 +97,71 @@ const mockKitchenOrders = [
     estimatedTime: 18,
     priority: 'normal',
     status: 'preparing',
-    station: 'hot',
+    cuisine: 'mexican',
+    assignedChef: 'chef4',
     items: [
-      { id: 12, name: 'Chicken Parmesan', quantity: 1, notes: '', station: 'hot', prepTime: 16, status: 'preparing' },
-      { id: 13, name: 'Spaghetti', quantity: 1, notes: 'Al dente', station: 'hot', prepTime: 12, status: 'ready' },
-      { id: 14, name: 'Tiramisu', quantity: 1, notes: '', station: 'dessert', prepTime: 2, status: 'new' }
+      { id: 12, name: 'Chicken Burrito', quantity: 1, notes: 'Extra guac', station: 'hot', cuisine: 'mexican', assignedChef: 'chef4', prepTime: 16, status: 'preparing' },
+      { id: 13, name: 'Mexican Rice', quantity: 1, notes: '', station: 'hot', cuisine: 'mexican', assignedChef: 'chef4', prepTime: 12, status: 'ready' },
+      { id: 14, name: 'Churros', quantity: 2, notes: 'Extra cinnamon', station: 'dessert', cuisine: 'mexican', assignedChef: 'chef4', prepTime: 8, status: 'new' }
     ],
     specialInstructions: 'Birthday celebration - add candle to dessert',
     allergens: ['dairy', 'gluten']
+  },
+  {
+    id: 'ORD2024006',
+    orderNumber: '006',
+    type: 'Dine-in',
+    table: 'T12',
+    customerName: 'Frank M.',
+    orderTime: new Date(Date.now() - 6 * 60000), // 6 minutes ago
+    estimatedTime: 22,
+    priority: 'normal',
+    status: 'preparing',
+    cuisine: 'japanese',
+    assignedChef: 'chef5',
+    items: [
+      { id: 15, name: 'Chicken Teriyaki', quantity: 1, notes: 'Light sauce', station: 'hot', cuisine: 'japanese', assignedChef: 'chef5', prepTime: 18, status: 'preparing' },
+      { id: 16, name: 'Miso Soup', quantity: 1, notes: '', station: 'hot', cuisine: 'japanese', assignedChef: 'chef5', prepTime: 5, status: 'ready' },
+      { id: 17, name: 'California Roll', quantity: 1, notes: '', station: 'cold', cuisine: 'japanese', assignedChef: 'chef5', prepTime: 12, status: 'preparing' }
+    ],
+    specialInstructions: '',
+    allergens: ['fish']
   }
 ];
 
+// Enhanced filtering options
+const cuisineTypes = [
+  { key: 'all', label: 'All Cuisines', color: '#1890ff', icon: '🍽️' },
+  { key: 'continental', label: 'Continental', color: '#52c41a', icon: '🍝' },
+  { key: 'chinese', label: 'Chinese', color: '#ff4d4f', icon: '🥢' },
+  { key: 'indian', label: 'Indian', color: '#fa8c16', icon: '🍛' },
+  { key: 'mexican', label: 'Mexican', color: '#722ed1', icon: '🌮' },
+  { key: 'japanese', label: 'Japanese', color: '#13c2c2', icon: '🍣' }
+];
+
 const stations = [
-  { key: 'all', label: 'All Stations', color: '#1890ff' },
-  { key: 'hot', label: 'Hot Kitchen', color: '#ff4d4f' },
-  { key: 'cold', label: 'Cold Station', color: '#52c41a' },
-  { key: 'dessert', label: 'Dessert', color: '#722ed1' },
-  { key: 'drinks', label: 'Beverages', color: '#fa8c16' }
+  { key: 'all', label: 'All Stations', color: '#1890ff', icon: '🏪' },
+  { key: 'hot', label: 'Hot Kitchen', color: '#ff4d4f', icon: '🔥' },
+  { key: 'cold', label: 'Cold Station', color: '#52c41a', icon: '🥗' },
+  { key: 'dessert', label: 'Dessert', color: '#722ed1', icon: '🍰' },
+  { key: 'drinks', label: 'Beverages', color: '#fa8c16', icon: '🥤' }
+];
+
+const chefs = [
+  { key: 'all', label: 'All Chefs', color: '#1890ff', icon: '👥' },
+  { key: 'chef1', label: 'Chef Marco (Continental)', color: '#52c41a', icon: '👨‍🍳' },
+  { key: 'chef2', label: 'Chef Wang (Chinese)', color: '#ff4d4f', icon: '👨‍🍳' },
+  { key: 'chef3', label: 'Chef Raj (Indian)', color: '#fa8c16', icon: '👨‍🍳' },
+  { key: 'chef4', label: 'Chef Carlos (Mexican)', color: '#722ed1', icon: '👨‍🍳' },
+  { key: 'chef5', label: 'Chef Yuki (Japanese)', color: '#13c2c2', icon: '👨‍🍳' }
 ];
 
 const KitchenDisplaySystem = () => {
   const [orders, setOrders] = useState(mockKitchenOrders);
+  const [selectedCuisine, setSelectedCuisine] = useState('all');
   const [selectedStation, setSelectedStation] = useState('all');
+  const [selectedChef, setSelectedChef] = useState('all');
+  const [displayMode, setDisplayMode] = useState('general'); // 'general', 'cuisine', 'chef', 'station'
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [autoRefresh, setAutoRefresh] = useState(true);
@@ -158,10 +205,19 @@ const KitchenDisplaySystem = () => {
     }
   };
 
-  // Filter orders by station
+  // Enhanced filtering logic
   const filteredOrders = orders.filter(order => {
-    if (selectedStation === 'all') return true;
-    return order.items.some(item => item.station === selectedStation);
+    // Filter by cuisine
+    const matchesCuisine = selectedCuisine === 'all' || order.cuisine === selectedCuisine;
+    
+    // Filter by chef
+    const matchesChef = selectedChef === 'all' || order.assignedChef === selectedChef;
+    
+    // Filter by station (items within the order)
+    const matchesStation = selectedStation === 'all' || 
+      order.items.some(item => item.station === selectedStation);
+    
+    return matchesCuisine && matchesChef && matchesStation;
   });
 
   // Get order priority color
@@ -240,6 +296,19 @@ const KitchenDisplaySystem = () => {
     setIsFullscreen(!isFullscreen);
   };
 
+  // Get current filter info for display
+  const getCurrentFilterInfo = () => {
+    const cuisineInfo = cuisineTypes.find(c => c.key === selectedCuisine);
+    const chefInfo = chefs.find(c => c.key === selectedChef);
+    const stationInfo = stations.find(s => s.key === selectedStation);
+    
+    return {
+      cuisine: cuisineInfo,
+      chef: chefInfo,
+      station: stationInfo
+    };
+  };
+
   // Render order card
   const renderOrderCard = (order) => {
     const elapsedTime = getElapsedTime(order.orderTime);
@@ -247,6 +316,12 @@ const KitchenDisplaySystem = () => {
     const completedItems = order.items.filter(item => item.status === 'ready').length;
     const totalItems = order.items.length;
     const progress = (completedItems / totalItems) * 100;
+    
+    // Filter items based on current selection
+    const visibleItems = order.items.filter(item => {
+      if (selectedStation === 'all') return true;
+      return item.station === selectedStation;
+    });
 
     return (
       <Card
@@ -265,6 +340,12 @@ const KitchenDisplaySystem = () => {
                 {order.type === 'Dine-in' ? `Table ${order.table}` : order.type}
               </Text>
               {order.customerName && <Text type="secondary">({order.customerName})</Text>}
+              <Tag color={cuisineTypes.find(c => c.key === order.cuisine)?.color} style={{ fontSize: '12px' }}>
+                {cuisineTypes.find(c => c.key === order.cuisine)?.icon} {cuisineTypes.find(c => c.key === order.cuisine)?.label}
+              </Tag>
+              <Tag color={chefs.find(c => c.key === order.assignedChef)?.color} style={{ fontSize: '12px' }}>
+                {chefs.find(c => c.key === order.assignedChef)?.icon} {chefs.find(c => c.key === order.assignedChef)?.label.split(' ')[1]}
+              </Tag>
             </Space>
             <Space>
               {isOverdue && <WarningOutlined style={{ color: '#ff4d4f', fontSize: '20px' }} />}
@@ -310,7 +391,7 @@ const KitchenDisplaySystem = () => {
 
         {/* Order Items */}
         <List
-          dataSource={order.items.filter(item => selectedStation === 'all' || item.station === selectedStation)}
+          dataSource={visibleItems}
           renderItem={item => (
             <List.Item
               className={`kds-item ${item.status}`}
@@ -405,6 +486,8 @@ const KitchenDisplaySystem = () => {
     );
   };
 
+  const filterInfo = getCurrentFilterInfo();
+
   return (
     <div ref={containerRef} className={`kds-container ${isFullscreen ? 'fullscreen' : ''}`}>
       {/* Hidden audio element for notifications */}
@@ -420,6 +503,13 @@ const KitchenDisplaySystem = () => {
               <Title level={2} style={{ margin: 0, color: 'white' }}>
                 🍳 Kitchen Display
               </Title>
+              {(selectedCuisine !== 'all' || selectedChef !== 'all' || selectedStation !== 'all') && (
+                <div style={{ color: 'white', fontSize: '16px' }}>
+                  {selectedCuisine !== 'all' && <Tag color={filterInfo.cuisine?.color}>{filterInfo.cuisine?.icon} {filterInfo.cuisine?.label}</Tag>}
+                  {selectedChef !== 'all' && <Tag color={filterInfo.chef?.color}>{filterInfo.chef?.icon} {filterInfo.chef?.label}</Tag>}
+                  {selectedStation !== 'all' && <Tag color={filterInfo.station?.color}>{filterInfo.station?.icon} {filterInfo.station?.label}</Tag>}
+                </div>
+              )}
               <Text style={{ color: 'white', fontSize: '18px' }}>
                 {currentTime.toLocaleTimeString()}
               </Text>
@@ -435,29 +525,99 @@ const KitchenDisplaySystem = () => {
           </Col>
           <Col>
             <Space>
-              {/* Station Filter */}
+              {/* Display Mode Selector */}
               <Select
-                value={selectedStation}
-                onChange={setSelectedStation}
-                style={{ width: 150 }}
+                value={displayMode}
+                onChange={setDisplayMode}
+                style={{ width: 120 }}
                 size="large"
               >
-                {stations.map(station => (
-                  <Option key={station.key} value={station.key}>
-                    <Space>
-                      <div
-                        style={{
-                          width: '12px',
-                          height: '12px',
-                          borderRadius: '50%',
-                          backgroundColor: station.color
-                        }}
-                      />
-                      {station.label}
-                    </Space>
-                  </Option>
-                ))}
+                <Option value="general">General</Option>
+                <Option value="cuisine">Cuisine</Option>
+                <Option value="chef">Chef</Option>
+                <Option value="station">Station</Option>
               </Select>
+
+              {/* Cuisine Filter */}
+              {(displayMode === 'general' || displayMode === 'cuisine') && (
+                <Select
+                  value={selectedCuisine}
+                  onChange={setSelectedCuisine}
+                  style={{ width: 180 }}
+                  size="large"
+                >
+                  {cuisineTypes.map(cuisine => (
+                    <Option key={cuisine.key} value={cuisine.key}>
+                      <Space>
+                        <span>{cuisine.icon}</span>
+                        <div
+                          style={{
+                            width: '12px',
+                            height: '12px',
+                            borderRadius: '50%',
+                            backgroundColor: cuisine.color
+                          }}
+                        />
+                        {cuisine.label}
+                      </Space>
+                    </Option>
+                  ))}
+                </Select>
+              )}
+
+              {/* Chef Filter */}
+              {(displayMode === 'general' || displayMode === 'chef') && (
+                <Select
+                  value={selectedChef}
+                  onChange={setSelectedChef}
+                  style={{ width: 200 }}
+                  size="large"
+                >
+                  {chefs.map(chef => (
+                    <Option key={chef.key} value={chef.key}>
+                      <Space>
+                        <span>{chef.icon}</span>
+                        <div
+                          style={{
+                            width: '12px',
+                            height: '12px',
+                            borderRadius: '50%',
+                            backgroundColor: chef.color
+                          }}
+                        />
+                        {chef.label}
+                      </Space>
+                    </Option>
+                  ))}
+                </Select>
+              )}
+
+              {/* Station Filter */}
+              {(displayMode === 'general' || displayMode === 'station') && (
+                <Select
+                  value={selectedStation}
+                  onChange={setSelectedStation}
+                  style={{ width: 150 }}
+                  size="large"
+                >
+                  {stations.map(station => (
+                    <Option key={station.key} value={station.key}>
+                      <Space>
+                        <span>{station.icon}</span>
+                        <div
+                          style={{
+                            width: '12px',
+                            height: '12px',
+                            borderRadius: '50%',
+                            backgroundColor: station.color
+                          }}
+                        />
+                        {station.label}
+                      </Space>
+                    </Option>
+                  ))}
+                </Select>
+              )}
 
               {/* Controls */}
               <Tooltip title="Settings">
@@ -500,7 +660,7 @@ const KitchenDisplaySystem = () => {
               <div className="kds-stat">
                 <Text type="secondary">New Orders</Text>
                 <Title level={3} style={{ margin: 0, color: '#1890ff' }}>
-                  {orders.filter(o => o.status === 'new').length}
+                  {filteredOrders.filter(o => o.status === 'new').length}
                 </Title>
               </div>
             </Card>
@@ -510,7 +670,7 @@ const KitchenDisplaySystem = () => {
               <div className="kds-stat">
                 <Text type="secondary">Preparing</Text>
                 <Title level={3} style={{ margin: 0, color: '#faad14' }}>
-                  {orders.filter(o => o.status === 'preparing').length}
+                  {filteredOrders.filter(o => o.status === 'preparing').length}
                 </Title>
               </div>
             </Card>
@@ -520,7 +680,7 @@ const KitchenDisplaySystem = () => {
               <div className="kds-stat">
                 <Text type="secondary">Ready</Text>
                 <Title level={3} style={{ margin: 0, color: '#52c41a' }}>
-                  {orders.filter(o => o.status === 'ready').length}
+                  {filteredOrders.filter(o => o.status === 'ready').length}
                 </Title>
               </div>
             </Card>
@@ -530,7 +690,7 @@ const KitchenDisplaySystem = () => {
               <div className="kds-stat">
                 <Text type="secondary">Overdue</Text>
                 <Title level={3} style={{ margin: 0, color: '#ff4d4f' }}>
-                  {orders.filter(o => o.priority === 'overdue').length}
+                  {filteredOrders.filter(o => o.priority === 'overdue').length}
                 </Title>
               </div>
             </Card>
@@ -547,6 +707,17 @@ const KitchenDisplaySystem = () => {
             </Col>
           ))}
         </Row>
+        
+        {filteredOrders.length === 0 && (
+          <div style={{ textAlign: 'center', padding: '50px', color: 'white' }}>
+            <Title level={3} style={{ color: 'white' }}>No orders found</Title>
+            <Text style={{ color: 'white' }}>
+              {selectedCuisine !== 'all' || selectedChef !== 'all' || selectedStation !== 'all' 
+                ? 'Try adjusting your filters to see more orders.' 
+                : 'All caught up! No pending orders at the moment.'}
+            </Text>
+          </div>
+        )}
       </div>
 
       {/* Settings Modal */}
@@ -558,6 +729,20 @@ const KitchenDisplaySystem = () => {
         width={500}
       >
         <Space direction="vertical" style={{ width: '100%' }} size="large">
+          <div>
+            <Text strong>Display Mode</Text>
+            <br />
+            <Select value={displayMode} onChange={setDisplayMode} style={{ width: '100%' }}>
+              <Option value="general">General View (All Filters)</Option>
+              <Option value="cuisine">Cuisine-Specific Display</Option>
+              <Option value="chef">Chef-Specific Display</Option>
+              <Option value="station">Station-Specific Display</Option>
+            </Select>
+            <Text type="secondary" style={{ display: 'block', marginTop: 4 }}>
+              Configure this display for specific kitchen areas or staff
+            </Text>
+          </div>
+          
           <div>
             <Text strong>Sound Notifications</Text>
             <br />
