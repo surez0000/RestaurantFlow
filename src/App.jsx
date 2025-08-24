@@ -5,12 +5,13 @@ import { Layout, Menu, Switch, ColorPicker, Typography, Space, Button, Spin, Res
 import {
   HomeOutlined, MenuOutlined as MenuIcon, ShoppingCartOutlined, UserOutlined,
   DesktopOutlined, ShopOutlined, SolutionOutlined, HistoryOutlined, TableOutlined,
-  TeamOutlined, CalendarOutlined, InboxOutlined, SafetyOutlined // Added SafetyOutlined for roles
+  TeamOutlined, CalendarOutlined, InboxOutlined, SafetyOutlined, LogoutOutlined, DashboardOutlined, SettingOutlined // Added SafetyOutlined for roles
 } from '@ant-design/icons';
 
 import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
 import { CartProvider, useCart } from './contexts/CartContext';
 import { RoleProvider } from './contexts/RoleContext';
+import ThemeControls from './components/ThemeControls';
 
 // Import Pages
 import CustomerMenu from './pages/customer/CustomerMenu'; // Renamed for consistency
@@ -126,7 +127,6 @@ const AppContent = () => {
 
 const CustomerLayout = ({ user, onLogout }) => {
   const { Header, Content, Footer } = Layout;
-  const { isDarkMode, toggleTheme, accentColor, setAccentColor } = useContext(ThemeContext);
   const { getCartTotalItems } = useCart();
   const location = useLocation();
 
@@ -158,11 +158,10 @@ const CustomerLayout = ({ user, onLogout }) => {
           <Menu.Item key="orders" icon={<HistoryOutlined />}><Link to="orders">My Orders</Link></Menu.Item>
           <Menu.Item key="profile" icon={<UserOutlined />}><Link to="profile">My Profile</Link></Menu.Item>
         </Menu>
-        <Space style={{flexShrink: 0}}>
-            <Switch checked={isDarkMode} onChange={toggleTheme} checkedChildren="🌙" unCheckedChildren="☀️" />
-            <ColorPicker size="small" value={accentColor} onChangeComplete={(color) => setAccentColor(color.toHexString())} />
+        <div style={{flexShrink: 0}}>
+            <ThemeControls />
             <Button type="text" icon={<LogoutOutlined />} onClick={onLogout} style={{color: 'white'}}>Logout</Button>
-        </Space>
+        </div>
       </Header>
       <Content style={{ padding: '0 20px', marginTop: '20px' }}>
         <div className="site-layout-content" style={{ background: isDarkMode ? '#141414' : '#fff', minHeight: 'calc(100vh - 170px)' }}>
@@ -184,7 +183,7 @@ const CustomerLayout = ({ user, onLogout }) => {
 
 const AdminLayout = ({ user, onLogout }) => {
   const { Sider, Header, Content, Footer } = Layout;
-  const { isDarkMode, toggleTheme, accentColor, setAccentColor } = useContext(ThemeContext);
+  const { isDarkMode } = useContext(ThemeContext);
   const [collapsed, setCollapsed] = useState(false);
   const location = useLocation();
 
@@ -253,11 +252,10 @@ const AdminLayout = ({ user, onLogout }) => {
       <Layout style={{ marginLeft: collapsed ? 80 : 200, transition: 'margin-left 0.2s' }}>
         <Header style={{ padding: '0 16px', background: isDarkMode ? '#1f1f1f' : '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10, width: '100%' }}>
             <Typography.Title level={4} style={{margin:0, color: isDarkMode ? 'white' : 'inherit'}}>Welcome, {user.name}</Typography.Title>
-            <Space>
-                <Switch checked={isDarkMode} onChange={toggleTheme} checkedChildren="🌙" unCheckedChildren="☀️" />
-                <ColorPicker size="small" value={accentColor} onChangeComplete={(color) => setAccentColor(color.toHexString())} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <ThemeControls />
                 <Button type="text" icon={<LogoutOutlined />} onClick={onLogout} style={{color: isDarkMode ? 'white' : 'inherit'}}>Logout</Button>
-            </Space>
+            </div>
         </Header>
         <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
           <div style={{ padding: 24, background: isDarkMode ? '#141414' : '#fff', minHeight: 'calc(100vh - 160px)', borderRadius: '8px' }}>
