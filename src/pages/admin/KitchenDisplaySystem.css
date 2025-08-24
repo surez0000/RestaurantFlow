@@ -1,0 +1,362 @@
+/* src/pages/admin/KitchenDisplaySystem.css */
+
+.kds-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.kds-container.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Header */
+.kds-header {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Statistics Bar */
+.kds-stats {
+  padding: 16px 24px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+}
+
+.kds-stat-card {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+.kds-stat {
+  text-align: center;
+  padding: 8px 0;
+}
+
+/* Orders Section */
+.kds-orders {
+  padding: 16px 24px;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.kds-container.fullscreen .kds-orders {
+  max-height: calc(100vh - 180px);
+}
+
+/* Order Cards */
+.kds-order-card {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+  transition: all 0.3s ease !important;
+  margin-bottom: 16px;
+  min-height: 300px;
+}
+
+.kds-order-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2) !important;
+}
+
+.kds-order-card.rush {
+  animation: pulse-red 2s infinite;
+}
+
+.kds-order-card.overdue {
+  animation: pulse-urgent 1s infinite;
+  border-color: #ff4d4f !important;
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 8px 24px rgba(255, 77, 79, 0.3); }
+  50% { box-shadow: 0 8px 24px rgba(255, 77, 79, 0.6); }
+  100% { box-shadow: 0 8px 24px rgba(255, 77, 79, 0.3); }
+}
+
+@keyframes pulse-urgent {
+  0% { 
+    box-shadow: 0 8px 24px rgba(255, 77, 79, 0.5);
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 12px 32px rgba(255, 77, 79, 0.8);
+    transform: scale(1.02);
+  }
+  100% { 
+    box-shadow: 0 8px 24px rgba(255, 77, 79, 0.5);
+    transform: scale(1);
+  }
+}
+
+/* Order Header */
+.kds-order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.kds-order-card .ant-card-head {
+  border-bottom: 2px solid #f0f0f0;
+  padding: 12px 16px;
+}
+
+.kds-order-card .ant-card-body {
+  padding: 16px;
+}
+
+/* Order Items */
+.kds-item {
+  padding: 12px 0 !important;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.kds-item:last-child {
+  border-bottom: none;
+}
+
+.kds-item.ready {
+  background: rgba(82, 196, 26, 0.1);
+  border-radius: 8px;
+  padding: 12px 8px !important;
+  margin: 4px 0;
+}
+
+.kds-item.preparing {
+  background: rgba(250, 173, 20, 0.1);
+  border-radius: 8px;
+  padding: 12px 8px !important;
+  margin: 4px 0;
+}
+
+.kds-item.new {
+  background: rgba(24, 144, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px 8px !important;
+  margin: 4px 0;
+}
+
+/* Progress Bar */
+.kds-order-card .ant-progress {
+  margin-bottom: 16px;
+}
+
+.kds-order-card .ant-progress-line {
+  font-size: 16px;
+}
+
+/* Buttons */
+.kds-order-card .ant-btn {
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  height: 40px;
+  min-width: 100px;
+}
+
+.kds-order-card .ant-btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.kds-order-card .ant-btn-primary:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.6);
+}
+
+/* Alerts */
+.kds-order-card .ant-alert {
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.kds-order-card .ant-alert-info {
+  background: rgba(24, 144, 255, 0.1);
+  border: 1px solid rgba(24, 144, 255, 0.3);
+}
+
+.kds-order-card .ant-alert-error {
+  background: rgba(255, 77, 79, 0.1);
+  border: 1px solid rgba(255, 77, 79, 0.3);
+}
+
+/* Tags */
+.kds-order-card .ant-tag {
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 11px;
+  padding: 2px 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .kds-orders .ant-col-xl-6 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+}
+
+@media (max-width: 992px) {
+  .kds-orders .ant-col-lg-8 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  
+  .kds-header {
+    padding: 12px 16px;
+  }
+  
+  .kds-stats {
+    padding: 12px 16px;
+  }
+  
+  .kds-orders {
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .kds-orders .ant-col-sm-12 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  
+  .kds-order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .kds-stat-card .kds-stat {
+    padding: 4px 0;
+  }
+  
+  .kds-order-card {
+    min-height: auto;
+  }
+}
+
+/* Fullscreen Optimizations */
+.kds-container.fullscreen .kds-order-card {
+  font-size: 16px;
+}
+
+.kds-container.fullscreen .kds-order-card .ant-typography {
+  font-size: 16px;
+}
+
+.kds-container.fullscreen .kds-order-card .ant-list-item-meta-title {
+  font-size: 18px;
+}
+
+.kds-container.fullscreen .kds-order-card .ant-btn {
+  height: 44px;
+  font-size: 16px;
+  min-width: 120px;
+}
+
+/* Custom Scrollbar */
+.kds-orders::-webkit-scrollbar {
+  width: 8px;
+}
+
+.kds-orders::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.kds-orders::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+.kds-orders::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Loading States */
+.kds-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+/* Network Status Indicator */
+.kds-network-status {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+/* Touch Optimizations for Kitchen Environment */
+.kds-container * {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.kds-container button,
+.kds-container .ant-btn {
+  min-height: 44px;
+  min-width: 44px;
+  touch-action: manipulation;
+}
+
+/* High Contrast Mode for Kitchen Lighting */
+@media (prefers-contrast: high) {
+  .kds-order-card {
+    background: #ffffff !important;
+    border: 3px solid #000000 !important;
+  }
+  
+  .kds-order-card .ant-typography {
+    color: #000000 !important;
+  }
+}
+
+/* Print Styles (for order tickets) */
+@media print {
+  .kds-container {
+    background: white !important;
+  }
+  
+  .kds-header,
+  .kds-stats {
+    display: none !important;
+  }
+  
+  .kds-order-card {
+    break-inside: avoid;
+    background: white !important;
+    border: 2px solid #000 !important;
+    margin-bottom: 20px;
+  }
+}

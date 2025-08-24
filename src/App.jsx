@@ -29,6 +29,7 @@ import TableManagementPage from './pages/admin/TableManagementPage'; // New
 import AdminInventoryManagementPage from './pages/admin/AdminInventoryManagementPage'; // New
 import AdminSettingsPage from './pages/admin/AdminSettingsPage';
 import WaiterTakeOrderPage from './pages/admin/WaiterTakeOrderPage';
+import KitchenDisplaySystem from './pages/admin/KitchenDisplaySystem'; // New
 
 import './App.css';
 
@@ -192,6 +193,7 @@ const AdminLayout = ({ user, onLogout }) => {
   if (role === 'manager') {
     baseItems.push(
       { key: 'dashboard', icon: <DashboardOutlined />, label: <Link to="dashboard">Dashboard</Link> },
+      { key: 'kitchen-display', icon: <DesktopOutlined />, label: <Link to="kitchen-display">Kitchen Display</Link> },
       { key: 'orders', icon: <ShoppingCartOutlined />, label: <Link to="orders">Order Management</Link> },
       { key: 'menu-mgmt', icon: <MenuIcon />, label: <Link to="menu-mgmt">Menu Management</Link> },
       { key: 'inventory-mgmt', icon: <InboxOutlined />, label: <Link to="inventory-mgmt">Inventory Management</Link> },
@@ -203,6 +205,7 @@ const AdminLayout = ({ user, onLogout }) => {
     );
   } else if (role === 'chef') {
     baseItems.push(
+      { key: 'kitchen-display', icon: <DesktopOutlined />, label: <Link to="kitchen-display">Kitchen Display</Link> },
       { key: 'orders', icon: <ShoppingCartOutlined />, label: <Link to="orders">Kitchen Orders</Link> },
       { key: 'inventory-mgmt', icon: <InboxOutlined />, label: <Link to="inventory-mgmt">Inventory</Link> },
       { key: 'menu-availability', icon: <MenuIcon />, label: <Link to="menu-availability">Menu Availability</Link> },
@@ -258,6 +261,7 @@ const AdminLayout = ({ user, onLogout }) => {
           <div style={{ padding: 24, background: isDarkMode ? '#141414' : '#fff', minHeight: 'calc(100vh - 160px)', borderRadius: '8px' }}>
             <Routes>
               {user.role === 'manager' && <Route path="dashboard" element={<AdminDashboardPage />} />}
+              {(user.role === 'manager' || user.role === 'chef') && <Route path="kitchen-display" element={<KitchenDisplaySystem />} />}
               {user.role === 'manager' && <Route path="menu-mgmt" element={<AdminMenuManagementPage />} />}
               {(user.role === 'manager' || user.role === 'chef') && <Route path="inventory-mgmt" element={<AdminInventoryManagementPage />} />}
               {user.role === 'manager' && <Route path="staff-mgmt" element={<AdminStaffManagementPage />} />}
