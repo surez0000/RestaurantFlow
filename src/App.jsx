@@ -128,6 +128,7 @@ const AppContent = () => {
 const CustomerLayout = ({ user, onLogout }) => {
   const { Header, Content, Footer } = Layout;
   const { getCartTotalItems } = useCart();
+  const { isDarkMode } = useContext(ThemeContext);
   const location = useLocation();
 
   const getSelectedKeys = () => {
