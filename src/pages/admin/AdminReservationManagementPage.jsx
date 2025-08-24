@@ -24,7 +24,7 @@ const AdminReservationManagementPage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedReservation, setSelectedReservation] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { accentColor } = useContext(ThemeContext);
+  const { } = useContext(ThemeContext);
 
   // Filters
   const [statusFilter, setStatusFilter] = useState(null);

@@ -16,7 +16,7 @@ const AdminSettingsPage = () => {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const { accentColor } = useContext(ThemeContext);
+  const { } = useContext(ThemeContext);
 
   // Mock current settings - In a real app, fetch these
   const mockSettings = {
@@ -60,7 +60,7 @@ const AdminSettingsPage = () => {
       });
       setLoading(false);
     }, 1000);
-  }, [formRestaurant, formFinancial, formNotifications, formIntegrations]);
+  }, [formRestaurant, formFinancial, formNotifications, formIntegrations, mockSettings]);
 
   const handleSaveSettings = async (formName, values) => {
     setSaving(true);
