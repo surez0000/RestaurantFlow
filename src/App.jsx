@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route, Link, Navigate, useLocation } f
 import { Layout, Menu, Switch, ColorPicker, Typography, Space, Button, Spin, Result, Badge } from 'antd';
 import {
   HomeOutlined, MenuOutlined as MenuIcon, ShoppingCartOutlined, UserOutlined,
-  DashboardOutlined, SettingOutlined, LogoutOutlined, UnorderedListOutlined,
   DesktopOutlined, ShopOutlined, SolutionOutlined, HistoryOutlined, TableOutlined,
   TeamOutlined, CalendarOutlined, InboxOutlined, SafetyOutlined // Added SafetyOutlined for roles
 } from '@ant-design/icons';
@@ -12,7 +11,6 @@ import {
 import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
 import { CartProvider, useCart } from './contexts/CartContext';
 import { RoleProvider } from './contexts/RoleContext';
-import PermissionGate from './components/PermissionGate';
 
 // Import Pages
 import CustomerMenu from './pages/customer/CustomerMenu'; // Renamed for consistency

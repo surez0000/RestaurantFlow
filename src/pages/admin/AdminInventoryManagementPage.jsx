@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Table, Button, Modal, Form, Input, InputNumber, Select, Tag, Space, Typography, Card, Row, Col, message, Popconfirm, Spin, Alert, Progress, Tabs, DatePicker, Statistic, Badge, Tooltip, Divider } from 'antd';
+import { Table, Button, Modal, Form, Input, InputNumber, Select, Tag, Space, Typography, Card, Row, Col, message, Popconfirm, Spin, Alert, Progress, Tabs, DatePicker, Statistic, Tooltip } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, WarningOutlined, ShoppingCartOutlined, BarChartOutlined, ReloadOutlined, ExportOutlined, ImportOutlined, BellOutlined, CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import dayjs from 'dayjs';
@@ -53,7 +53,7 @@ const AdminInventoryManagementPage = () => {
   const [form] = Form.useForm();
   const [supplierForm] = Form.useForm();
   const [stockAdjustForm] = Form.useForm();
-  const { accentColor, isDarkMode } = useContext(ThemeContext);
+  const { accentColor } = useContext(ThemeContext);
 
   // Filters
   const [categoryFilter, setCategoryFilter] = useState(null);

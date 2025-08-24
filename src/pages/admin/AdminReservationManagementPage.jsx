@@ -6,9 +6,8 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 import dayjs from 'dayjs';
 // import './AdminReservationManagement.css'; // Create if needed
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 const { Option } = Select;
-const { RangePicker } = DatePicker;
 
 const mockReservations = [
   { id: 'RES001', name: 'Jane Doe', phone: '555-0201', date: '2024-03-20T19:00:00Z', partySize: 4, status: 'Pending', specialRequests: 'Window seat if possible.', submittedAt: '2024-03-18T10:00:00Z' },

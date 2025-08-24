@@ -8,7 +8,7 @@ import {
   PlusOutlined, EditOutlined, DeleteOutlined, UserOutlined, 
   SafetyOutlined, SettingOutlined, CopyOutlined 
 } from '@ant-design/icons';
-import { useRole, PERMISSIONS, DEFAULT_ROLES } from '../contexts/RoleContext';
+import { useRole, PERMISSIONS, DEFAULT_ROLES } from '../../contexts/RoleContext';
 import { ThemeContext } from '../contexts/ThemeContext';
 
 const { Title, Text, Paragraph } = Typography;
