@@ -6,11 +6,13 @@ import {
   HomeOutlined, MenuOutlined as MenuIcon, ShoppingCartOutlined, UserOutlined,
   DashboardOutlined, SettingOutlined, LogoutOutlined, UnorderedListOutlined,
   DesktopOutlined, ShopOutlined, SolutionOutlined, HistoryOutlined, TableOutlined,
-  TeamOutlined, CalendarOutlined, InboxOutlined // Added TeamOutlined, CalendarOutlined, InboxOutlined
+  TeamOutlined, CalendarOutlined, InboxOutlined, SafetyOutlined // Added SafetyOutlined for roles
 } from '@ant-design/icons';
 
 import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
 import { CartProvider, useCart } from './contexts/CartContext';
+import { RoleProvider } from './contexts/RoleContext';
+import PermissionGate from './components/PermissionGate';
 
 // Import Pages
 import CustomerMenu from './pages/customer/CustomerMenu'; // Renamed for consistency
@@ -30,6 +32,7 @@ import AdminInventoryManagementPage from './pages/admin/AdminInventoryManagement
 import AdminSettingsPage from './pages/admin/AdminSettingsPage';
 import WaiterTakeOrderPage from './pages/admin/WaiterTakeOrderPage';
 import KitchenDisplaySystem from './pages/admin/KitchenDisplaySystem'; // New
+import RoleManagementPage from './pages/admin/RoleManagementPage'; // New
 
 import './App.css';
 
@@ -201,6 +204,7 @@ const AdminLayout = ({ user, onLogout }) => {
       { key: 'table-mgmt', icon: <TableOutlined />, label: <Link to="table-mgmt">Table Management</Link> },
       { key: 'reservations-mgmt', icon: <CalendarOutlined />, label: <Link to="reservations-mgmt">Reservations</Link> },
       { key: 'staff-mgmt', icon: <TeamOutlined />, label: <Link to="staff-mgmt">Staff Management</Link> },
+      { key: 'role-mgmt', icon: <SafetyOutlined />, label: <Link to="role-mgmt">Role Management</Link> },
       { key: 'settings', icon: <SettingOutlined />, label: <Link to="settings">Settings</Link> },
     );
   } else if (role === 'chef') {
@@ -268,6 +272,7 @@ const AdminLayout = ({ user, onLogout }) => {
               {user.role === 'manager' && <Route path="reservations-mgmt" element={<AdminReservationManagementPage />} />}
               {user.role === 'manager' && <Route path="table-mgmt" element={<TableManagementPage />} />}
               {user.role === 'manager' && <Route path="settings" element={<AdminSettingsPage />} />}
+              {user.role === 'manager' && <Route path="role-mgmt" element={<RoleManagementPage />} />}
 
               {user.role === 'chef' && <Route path="menu-availability" element={<ChefMenuAvailabilityPage />} />}
 
@@ -292,11 +297,13 @@ const AdminLayout = ({ user, onLogout }) => {
 function App() {
   return (
     <ThemeProvider>
-      <CartProvider>
-        <Router>
-          <AppContent />
-        </Router>
-      </CartProvider>
+      <RoleProvider>
+        <CartProvider>
+          <Router>
+            <AppContent />
+          </Router>
+        </CartProvider>
+      </RoleProvider>
     </ThemeProvider>
   );
 }
