@@ -4,7 +4,6 @@ import { Table, Button, Tag, Space, Typography, Modal, Descriptions, message, Se
 import { CheckCircleOutlined, CloseCircleOutlined, EyeOutlined, FilterOutlined, ReloadOutlined } from '@ant-design/icons';
 import { ThemeContext } from '../../contexts/ThemeContext';
 import dayjs from 'dayjs';
-// import './AdminReservationManagement.css'; // Create if needed
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -24,7 +23,7 @@ const AdminReservationManagementPage = () => {
   const [loading, setLoading] = useState(true);
   const [selectedReservation, setSelectedReservation] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const { } = useContext(ThemeContext);
+  useContext(ThemeContext);
 
   // Filters
   const [statusFilter, setStatusFilter] = useState(null);

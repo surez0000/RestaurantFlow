@@ -168,7 +168,7 @@ const KitchenDisplaySystem = () => {
   const [isOnline, setIsOnline] = useState(true);
   const [showSettings, setShowSettings] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const { accentColor, isDarkMode } = useContext(ThemeContext);
+  useContext(ThemeContext);
   const audioRef = useRef(null);
   const containerRef = useRef(null);
 
@@ -350,6 +350,7 @@ const KitchenDisplaySystem = () => {
             <Space>
               {isOverdue && <WarningOutlined style={{ color: '#ff4d4f', fontSize: '20px' }} />}
               <Text strong style={{ color: isOverdue ? '#ff4d4f' : '#52c41a', fontSize: '16px' }}>
+                <ClockCircleOutlined style={{ marginRight: '4px' }} />
                 {elapsedTime}m / {order.estimatedTime}m
               </Text>
             </Space>

@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Form, Input, InputNumber, Button, Typography, Card, Row, Col, Switch, message, Spin, Tabs, Divider, Alert } from 'antd';
 import { SaveOutlined, ShopOutlined, PercentageOutlined, DollarOutlined, BellOutlined, KeyOutlined } from '@ant-design/icons';
 import { ThemeContext } from '../../contexts/ThemeContext';
-// import './AdminSettingsPage.css'; // Create if needed
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
@@ -16,10 +15,10 @@ const AdminSettingsPage = () => {
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const { } = useContext(ThemeContext);
+  useContext(ThemeContext);
 
   // Mock current settings - In a real app, fetch these
-  const mockSettings = {
+  const mockSettings = React.useMemo(() => ({
     restaurantName: 'The Delicious Place',
     address: '123 Foodie Lane, Gourmet City, FC 54321',
     phone: '555-FOOD-NOW',
@@ -32,7 +31,7 @@ const AdminSettingsPage = () => {
     adminEmailForNotifications: 'admin@deliciousplace.com',
     paymentGatewayApiKey: 'sk_test_xxxxxxxxxxxxxxxxx_mock',
     deliveryPlatformApiKey: 'dp_live_yyyyyyyyyyyyyyyyy_mock',
-  };
+  }), []);
 
   useEffect(() => {
     setLoading(true);
