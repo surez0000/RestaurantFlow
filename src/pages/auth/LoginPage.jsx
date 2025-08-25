@@ -35,10 +35,14 @@ const LoginPage = () => {
       const user = data.user;
       if (user.role === 'customer') {
         navigate('/customer/home', { replace: true });
+      } else if (user.role === 'manager') {
+        navigate('/admin/dashboard', { replace: true });
+      } else if (user.role === 'waiter') {
+        navigate('/admin/tables', { replace: true });
+      } else if (user.role === 'chef') {
+        navigate('/admin/orders', { replace: true });
       } else {
-        const adminPath = user.role === 'manager' ? '/admin/dashboard' : 
-                         user.role === 'waiter' ? '/admin/tables' : '/admin/orders';
-        navigate(adminPath, { replace: true });
+        navigate('/admin/dashboard', { replace: true });
       }
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');

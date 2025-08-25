@@ -69,10 +69,17 @@ const AppContent = () => {
   
   // Redirect authenticated users away from auth pages
   if (currentUser && location.pathname.startsWith('/auth')) {
-    const redirectPath = currentUser.role === 'customer' 
-      ? "/customer/home" 
-      : `/admin/${currentUser.role === 'manager' ? 'dashboard' : (currentUser.role === 'waiter' ? 'tables' : 'orders')}`;
-    return <Navigate to={redirectPath} replace />;
+    if (currentUser.role === 'customer') {
+      return <Navigate to="/customer/home" replace />;
+    } else if (currentUser.role === 'manager') {
+      return <Navigate to="/admin/dashboard" replace />;
+    } else if (currentUser.role === 'waiter') {
+      return <Navigate to="/admin/tables" replace />;
+    } else if (currentUser.role === 'chef') {
+      return <Navigate to="/admin/orders" replace />;
+    } else {
+      return <Navigate to="/admin/dashboard" replace />;
+    }
   }
   
   // Show auth pages for unauthenticated users
