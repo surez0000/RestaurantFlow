@@ -1,279 +1,186 @@
-import { supabase, handleSupabaseError, handleSupabaseSuccess } from '../lib/supabase'
+// Mock order service for frontend-only application
+import { mockDelay, handleMockSuccess, handleMockError } from '../lib/supabase'
+
+// Mock orders data
+let mockOrders = [
+  {
+    id: 'order1',
+    order_number: 'ORD2024001',
+    customer_name: 'Alice Wonderland',
+    order_type: 'dine_in',
+    table_number: 'T5',
+    status: 'preparing',
+    subtotal: 45.50,
+    tax_amount: 3.64,
+    total_amount: 49.14,
+    payment_status: 'paid',
+    payment_method: 'card',
+    created_at: new Date(Date.now() - 5 * 60000).toISOString(), // 5 minutes ago
+    items: [
+      { id: 'item1', name: 'Margherita Pizza', quantity: 1, unit_price: 15.00, total_price: 15.00, special_instructions: 'Extra basil' },
+      { id: 'item2', name: 'Coca-Cola', quantity: 2, unit_price: 2.50, total_price: 5.00 }
+    ]
+  },
+  {
+    id: 'order2',
+    order_number: 'ORD2024002',
+    customer_name: 'Bob Builder',
+    order_type: 'takeaway',
+    status: 'ready',
+    subtotal: 22.00,
+    tax_amount: 1.76,
+    total_amount: 23.76,
+    payment_status: 'pending',
+    created_at: new Date(Date.now() - 3 * 60000).toISOString(), // 3 minutes ago
+    items: [
+      { id: 'item3', name: 'Angus Beef Burger', quantity: 1, unit_price: 14.00, total_price: 14.00 },
+      { id: 'item4', name: 'Fries', quantity: 1, unit_price: 4.00, total_price: 4.00 }
+    ]
+  }
+]
+
+let orderCounter = 3
 
 export const orderService = {
   // Create new order
   async createOrder(orderData) {
     try {
-      // Start a transaction
-      const { data: order, error: orderError } = await supabase
-        .from('orders')
-        .insert({
-          ...orderData,
-          order_number: await this.generateOrderNumber(orderData.restaurant_id)
-        })
-        .select()
-        .single()
-
-      if (orderError) throw orderError
-
-      // Add order items
-      if (orderData.items && orderData.items.length > 0) {
-        const orderItems = orderData.items.map(item => ({
-          order_id: order.id,
-          menu_item_id: item.menu_item_id,
-          variant_id: item.variant_id || null,
-          quantity: item.quantity,
-          unit_price: item.unit_price,
-          total_price: item.total_price,
-          special_instructions: item.special_instructions || null
-        }))
-
-        const { data: items, error: itemsError } = await supabase
-          .from('order_items')
-          .insert(orderItems)
-          .select()
-
-        if (itemsError) throw itemsError
-
-        // Add modifiers for each item
-        for (const item of orderData.items) {
-          if (item.modifiers && item.modifiers.length > 0) {
-            const orderItem = items.find(oi => oi.menu_item_id === item.menu_item_id)
-            
-            const modifiers = item.modifiers.map(mod => ({
-              order_item_id: orderItem.id,
-              modifier_id: mod.modifier_id,
-              quantity: mod.quantity || 1,
-              unit_price: mod.unit_price,
-              total_price: mod.total_price
-            }))
-
-            const { error: modifiersError } = await supabase
-              .from('order_item_modifiers')
-              .insert(modifiers)
-
-            if (modifiersError) throw modifiersError
-          }
-        }
+      await mockDelay(1000)
+      
+      const newOrder = {
+        id: `order${Date.now()}`,
+        order_number: await this.generateOrderNumber(),
+        ...orderData,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       }
-
-      return handleSupabaseSuccess(order)
+      
+      mockOrders.unshift(newOrder)
+      return handleMockSuccess(newOrder)
     } catch (error) {
-      return handleSupabaseError(error)
+      return handleMockError(error.message)
     }
   },
 
   // Generate unique order number
-  async generateOrderNumber(restaurantId) {
+  async generateOrderNumber() {
     const today = new Date().toISOString().split('T')[0].replace(/-/g, '')
-    
-    const { data, error } = await supabase
-      .from('orders')
-      .select('order_number')
-      .eq('restaurant_id', restaurantId)
-      .like('order_number', `${today}%`)
-      .order('created_at', { ascending: false })
-      .limit(1)
-
-    if (error) throw error
-
-    let sequence = 1
-    if (data && data.length > 0) {
-      const lastNumber = data[0].order_number
-      sequence = parseInt(lastNumber.slice(-3)) + 1
-    }
-
+    const sequence = orderCounter++
     return `${today}${sequence.toString().padStart(3, '0')}`
   },
 
   // Get orders for a restaurant
   async getOrders(restaurantId, filters = {}) {
     try {
-      let query = supabase
-        .from('orders')
-        .select(`
-          *,
-          restaurant_tables (
-            table_number
-          ),
-          user_profiles (
-            full_name,
-            email
-          ),
-          order_items (
-            *,
-            menu_items (
-              name,
-              image_url
-            ),
-            menu_item_variants (
-              name
-            ),
-            order_item_modifiers (
-              *,
-              modifiers (
-                name
-              )
-            )
-          )
-        `)
-        .eq('restaurant_id', restaurantId)
-
+      await mockDelay(500)
+      let filteredOrders = [...mockOrders]
+      
       // Apply filters
       if (filters.status) {
-        query = query.eq('status', filters.status)
+        filteredOrders = filteredOrders.filter(order => order.status === filters.status)
       }
       if (filters.order_type) {
-        query = query.eq('order_type', filters.order_type)
+        filteredOrders = filteredOrders.filter(order => order.order_type === filters.order_type)
       }
       if (filters.date_from) {
-        query = query.gte('created_at', filters.date_from)
+        filteredOrders = filteredOrders.filter(order => new Date(order.created_at) >= new Date(filters.date_from))
       }
       if (filters.date_to) {
-        query = query.lte('created_at', filters.date_to)
+        filteredOrders = filteredOrders.filter(order => new Date(order.created_at) <= new Date(filters.date_to))
       }
-
-      const { data, error } = await query
-        .order('created_at', { ascending: false })
-
-      if (error) throw error
-      return handleSupabaseSuccess(data)
+      
+      return handleMockSuccess(filteredOrders)
     } catch (error) {
-      return handleSupabaseError(error)
+      return handleMockError(error.message)
     }
   },
 
   // Get single order with full details
   async getOrder(orderId) {
     try {
-      const { data, error } = await supabase
-        .from('orders')
-        .select(`
-          *,
-          restaurant_tables (
-            table_number
-          ),
-          user_profiles (
-            full_name,
-            email,
-            phone
-          ),
-          order_items (
-            *,
-            menu_items (
-              name,
-              image_url
-            ),
-            menu_item_variants (
-              name
-            ),
-            order_item_modifiers (
-              *,
-              modifiers (
-                name
-              )
-            )
-          )
-        `)
-        .eq('id', orderId)
-        .single()
-
-      if (error) throw error
-      return handleSupabaseSuccess(data)
+      await mockDelay(300)
+      const order = mockOrders.find(order => order.id === orderId)
+      
+      if (!order) {
+        throw new Error('Order not found')
+      }
+      
+      return handleMockSuccess(order)
     } catch (error) {
-      return handleSupabaseError(error)
+      return handleMockError(error.message)
     }
   },
 
   // Update order status
   async updateOrderStatus(orderId, status) {
     try {
-      const { data, error } = await supabase
-        .from('orders')
-        .update({ 
-          status,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', orderId)
-        .select()
-        .single()
-
-      if (error) throw error
-      return handleSupabaseSuccess(data)
+      await mockDelay(400)
+      const orderIndex = mockOrders.findIndex(order => order.id === orderId)
+      
+      if (orderIndex === -1) {
+        throw new Error('Order not found')
+      }
+      
+      mockOrders[orderIndex].status = status
+      mockOrders[orderIndex].updated_at = new Date().toISOString()
+      
+      return handleMockSuccess(mockOrders[orderIndex])
     } catch (error) {
-      return handleSupabaseError(error)
+      return handleMockError(error.message)
     }
   },
 
   // Update order item status
   async updateOrderItemStatus(orderItemId, status) {
     try {
-      const { data, error } = await supabase
-        .from('order_items')
-        .update({ status })
-        .eq('id', orderItemId)
-        .select()
-        .single()
-
-      if (error) throw error
-      return handleSupabaseSuccess(data)
+      await mockDelay(300)
+      // Find order containing the item
+      for (let order of mockOrders) {
+        const itemIndex = order.items?.findIndex(item => item.id === orderItemId)
+        if (itemIndex !== -1) {
+          order.items[itemIndex].status = status
+          return handleMockSuccess(order.items[itemIndex])
+        }
+      }
+      
+      throw new Error('Order item not found')
     } catch (error) {
-      return handleSupabaseError(error)
+      return handleMockError(error.message)
     }
   },
 
-  // Get real-time orders subscription
+  // Mock real-time orders subscription
   subscribeToOrders(restaurantId, callback) {
-    return supabase
-      .channel(`orders:restaurant_id=eq.${restaurantId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'orders',
-          filter: `restaurant_id=eq.${restaurantId}`
-        },
-        callback
-      )
-      .subscribe()
+    // Simulate real-time updates every 30 seconds
+    const interval = setInterval(() => {
+      // Randomly update an order status
+      if (mockOrders.length > 0) {
+        const randomOrder = mockOrders[Math.floor(Math.random() * mockOrders.length)]
+        const statuses = ['pending', 'confirmed', 'preparing', 'ready', 'completed']
+        const currentIndex = statuses.indexOf(randomOrder.status)
+        if (currentIndex < statuses.length - 1) {
+          randomOrder.status = statuses[currentIndex + 1]
+          callback({ eventType: 'UPDATE', new: randomOrder })
+        }
+      }
+    }, 30000)
+    
+    return {
+      unsubscribe: () => clearInterval(interval)
+    }
   },
 
   // Get kitchen display orders (preparing status)
   async getKitchenOrders(restaurantId) {
     try {
-      const { data, error } = await supabase
-        .from('orders')
-        .select(`
-          *,
-          restaurant_tables (
-            table_number
-          ),
-          order_items (
-            *,
-            menu_items (
-              name,
-              prep_time_minutes
-            ),
-            menu_item_variants (
-              name
-            ),
-            order_item_modifiers (
-              *,
-              modifiers (
-                name
-              )
-            )
-          )
-        `)
-        .eq('restaurant_id', restaurantId)
-        .in('status', ['confirmed', 'preparing'])
-        .order('created_at', { ascending: true })
-
-      if (error) throw error
-      return handleSupabaseSuccess(data)
+      await mockDelay(400)
+      const kitchenOrders = mockOrders.filter(order => 
+        ['confirmed', 'preparing'].includes(order.status)
+      )
+      
+      return handleMockSuccess(kitchenOrders)
     } catch (error) {
-      return handleSupabaseError(error)
+      return handleMockError(error.message)
     }
   }
 }

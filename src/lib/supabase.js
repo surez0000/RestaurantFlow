@@ -1,38 +1,23 @@
-import { createClient } from '@supabase/supabase-js'
+// Mock data utilities for frontend-only application
 
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL
-const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables')
-}
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true
-  },
-  realtime: {
-    params: {
-      eventsPerSecond: 10
-    }
-  }
-})
-
-// Helper function to handle Supabase errors
-export const handleSupabaseError = (error) => {
-  console.error('Supabase Error:', error)
-  return {
-    success: false,
-    error: error.message || 'An unexpected error occurred'
-  }
-}
-
-// Helper function for successful responses
-export const handleSupabaseSuccess = (data) => {
+// Helper function to simulate API success responses
+export const handleMockSuccess = (data) => {
   return {
     success: true,
     data
   }
+}
+
+// Helper function to simulate API error responses
+export const handleMockError = (message) => {
+  console.error('Mock API Error:', message)
+  return {
+    success: false,
+    error: message || 'An unexpected error occurred'
+  }
+}
+
+// Simulate async operations with delays
+export const mockDelay = (ms = 500) => {
+  return new Promise(resolve => setTimeout(resolve, ms))
 }

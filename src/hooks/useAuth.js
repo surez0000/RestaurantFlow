@@ -1,105 +1,96 @@
+// Mock authentication hook for frontend-only application
 import { useState, useEffect } from 'react'
-import { supabase } from '../lib/supabase'
+import { mockDelay } from '../lib/supabase'
+
+// Mock user data
+const mockUsers = {
+  'customer@example.com': {
+    id: 'user-1',
+    email: 'customer@example.com',
+    role: 'customer',
+    name: 'Customer User',
+    full_name: 'Customer User',
+    phone: '555-0001',
+    avatar_url: null
+  },
+  'manager@example.com': {
+    id: 'user-2',
+    email: 'manager@example.com',
+    role: 'manager',
+    name: 'Manager User',
+    full_name: 'Manager User',
+    phone: '555-0002',
+    avatar_url: null
+  },
+  'chef@example.com': {
+    id: 'user-3',
+    email: 'chef@example.com',
+    role: 'chef',
+    name: 'Chef User',
+    full_name: 'Chef User',
+    phone: '555-0003',
+    avatar_url: null
+  },
+  'waiter@example.com': {
+    id: 'user-4',
+    email: 'waiter@example.com',
+    role: 'waiter',
+    name: 'Waiter User',
+    full_name: 'Waiter User',
+    phone: '555-0004',
+    avatar_url: null
+  }
+}
 
 export const useAuth = () => {
-  const [user, setUser] = useState(null)
-  const [profile, setProfile] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem('restauflow-auth-user')
+    return savedUser ? JSON.parse(savedUser) : null
+  })
+  const [profile, setProfile] = useState(() => {
+    const savedProfile = localStorage.getItem('restauflow-auth-profile')
+    return savedProfile ? JSON.parse(savedProfile) : null
+  })
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    // Get initial session
-    const getInitialSession = async () => {
-      try {
-        const { data: { session }, error } = await supabase.auth.getSession()
-        if (error) throw error
-        
-        if (session?.user) {
-          setUser(session.user)
-          await fetchUserProfile(session.user.id)
-        }
-      } catch (error) {
-        setError(error.message)
-      } finally {
-        setLoading(false)
-      }
+    if (user) {
+      localStorage.setItem('restauflow-auth-user', JSON.stringify(user))
+    } else {
+      localStorage.removeItem('restauflow-auth-user')
     }
+  }, [user])
 
-    getInitialSession()
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        if (session?.user) {
-          setUser(session.user)
-          await fetchUserProfile(session.user.id)
-        } else {
-          setUser(null)
-          setProfile(null)
-        }
-        setLoading(false)
-      }
-    )
-
-    return () => subscription.unsubscribe()
-  }, [])
-
-  const fetchUserProfile = async (userId) => {
-    try {
-      const { data, error } = await supabase
-        .from('user_profiles')
-        .select(`
-          *,
-          user_role_assignments (
-            role_id,
-            location_ids,
-            custom_roles (
-              name,
-              permissions
-            )
-          )
-        `)
-        .eq('id', userId)
-        .single()
-
-      if (error) throw error
-      setProfile(data)
-    } catch (error) {
-      console.error('Error fetching user profile:', error)
-      setError(error.message)
+  useEffect(() => {
+    if (profile) {
+      localStorage.setItem('restauflow-auth-profile', JSON.stringify(profile))
+    } else {
+      localStorage.removeItem('restauflow-auth-profile')
     }
-  }
+  }, [profile])
 
   const signUp = async (email, password, userData = {}) => {
     try {
       setLoading(true)
       setError(null)
+      await mockDelay(1000)
 
-      const { data, error } = await supabase.auth.signUp({
+      // Simulate user creation
+      const newUser = {
+        id: `user-${Date.now()}`,
         email,
-        password,
-        options: {
-          data: userData
-        }
-      })
-
-      if (error) throw error
-
-      // Create user profile
-      if (data.user) {
-        const { error: profileError } = await supabase
-          .from('user_profiles')
-          .insert({
-            id: data.user.id,
-            email: data.user.email,
-            full_name: userData.full_name || '',
-            role: userData.role || 'customer'
-          })
-
-        if (profileError) throw profileError
+        role: userData.role || 'customer',
+        name: userData.full_name || email.split('@')[0],
+        full_name: userData.full_name || '',
+        phone: userData.phone || '',
+        avatar_url: null
       }
 
-      return { data, error: null }
+      setUser(newUser)
+      setProfile(newUser)
+
+      return { data: { user: newUser }, error: null }
     } catch (error) {
       setError(error.message)
       return { data: null, error: error.message }
@@ -112,14 +103,18 @@ export const useAuth = () => {
     try {
       setLoading(true)
       setError(null)
+      await mockDelay(1000)
 
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      })
+      // Check if user exists in mock data
+      const mockUser = mockUsers[email]
+      if (!mockUser) {
+        throw new Error('Invalid email or password')
+      }
 
-      if (error) throw error
-      return { data, error: null }
+      setUser(mockUser)
+      setProfile(mockUser)
+
+      return { data: { user: mockUser }, error: null }
     } catch (error) {
       setError(error.message)
       return { data: null, error: error.message }
@@ -131,8 +126,7 @@ export const useAuth = () => {
   const signOut = async () => {
     try {
       setLoading(true)
-      const { error } = await supabase.auth.signOut()
-      if (error) throw error
+      await mockDelay(500)
       
       setUser(null)
       setProfile(null)
@@ -147,21 +141,13 @@ export const useAuth = () => {
     try {
       setLoading(true)
       setError(null)
+      await mockDelay(800)
 
-      const { data, error } = await supabase
-        .from('user_profiles')
-        .update({
-          ...updates,
-          updated_at: new Date().toISOString()
-        })
-        .eq('id', user.id)
-        .select()
-        .single()
-
-      if (error) throw error
+      const updatedProfile = { ...profile, ...updates }
+      setProfile(updatedProfile)
+      setUser(updatedProfile)
       
-      setProfile(data)
-      return { data, error: null }
+      return { data: updatedProfile, error: null }
     } catch (error) {
       setError(error.message)
       return { data: null, error: error.message }
@@ -171,19 +157,23 @@ export const useAuth = () => {
   }
 
   const hasPermission = (permission) => {
-    if (!profile?.user_role_assignments) return false
+    // Mock permission check based on role
+    if (!profile) return false
     
-    return profile.user_role_assignments.some(assignment => 
-      assignment.custom_roles?.permissions?.includes(permission)
-    )
+    const rolePermissions = {
+      'customer': [],
+      'waiter': ['orders.view', 'orders.create', 'tables.view', 'menu.view'],
+      'chef': ['orders.view', 'orders.kitchen_display', 'menu.availability', 'inventory.view'],
+      'manager': ['dashboard.view', 'orders.manage', 'menu.manage', 'staff.manage', 'inventory.manage', 'tables.manage', 'reservations.manage', 'settings.view'],
+      'admin': ['*'] // All permissions
+    }
+    
+    const userPermissions = rolePermissions[profile.role] || []
+    return userPermissions.includes('*') || userPermissions.includes(permission)
   }
 
   const hasRole = (roleName) => {
-    if (!profile?.user_role_assignments) return false
-    
-    return profile.user_role_assignments.some(assignment => 
-      assignment.custom_roles?.name === roleName
-    )
+    return profile?.role === roleName
   }
 
   return {
@@ -199,6 +189,6 @@ export const useAuth = () => {
     hasRole,
     isAuthenticated: !!user,
     isCustomer: profile?.role === 'customer',
-    isStaff: ['staff', 'manager', 'admin'].includes(profile?.role)
+    isStaff: ['staff', 'manager', 'admin', 'waiter', 'chef'].includes(profile?.role)
   }
 }
