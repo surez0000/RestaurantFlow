@@ -33,17 +33,8 @@ const LoginPage = () => {
 
       // Redirect based on user role
       const user = data.user;
-      if (user.role === 'customer') {
-        navigate('/customer/home', { replace: true });
-      } else if (user.role === 'manager') {
-        navigate('/admin/dashboard', { replace: true });
-      } else if (user.role === 'waiter') {
-        navigate('/admin/tables', { replace: true });
-      } else if (user.role === 'chef') {
-        navigate('/admin/orders', { replace: true });
-      } else {
-        navigate('/admin/dashboard', { replace: true });
-      }
+      // Let App.jsx handle the redirect based on authentication state
+      // The Navigate component in App.jsx will automatically redirect
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
     } finally {

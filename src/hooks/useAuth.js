@@ -113,7 +113,6 @@ export const useAuth = () => {
       }
 
       setUser(mockUser)
-      setProfile(mockUser)
 
       return { data: { user: mockUser }, error: null }
     } catch (error) {

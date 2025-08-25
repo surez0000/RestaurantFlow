@@ -51,7 +51,7 @@ const AppContent = () => {
   const { user, profile, loading: loadingAuth, signOut } = useAuth();
   const location = useLocation();
 
-  const currentUser = user || profile;
+  const currentUser = user;
 
   // Show loading spinner during authentication
   if (loadingAuth) {
@@ -69,17 +69,16 @@ const AppContent = () => {
   
   // Redirect authenticated users away from auth pages
   if (currentUser && location.pathname.startsWith('/auth')) {
-    if (currentUser.role === 'customer') {
-      return <Navigate to="/customer/home" replace />;
-    } else if (currentUser.role === 'manager') {
-      return <Navigate to="/admin/dashboard" replace />;
-    } else if (currentUser.role === 'waiter') {
-      return <Navigate to="/admin/tables" replace />;
-    } else if (currentUser.role === 'chef') {
-      return <Navigate to="/admin/orders" replace />;
-    } else {
-      return <Navigate to="/admin/dashboard" replace />;
-    }
+    const redirectPath = currentUser.role === 'customer' 
+      ? '/customer/home' 
+      : currentUser.role === 'manager' 
+        ? '/admin/dashboard'
+        : currentUser.role === 'waiter'
+          ? '/admin/tables'
+          : currentUser.role === 'chef'
+            ? '/admin/orders'
+            : '/admin/dashboard';
+    return <Navigate to={redirectPath} replace />;
   }
   
   // Show auth pages for unauthenticated users
@@ -99,7 +98,11 @@ const AppContent = () => {
       return <Navigate to="/customer/home" replace />;
     }
     if (['manager', 'chef', 'waiter'].includes(currentUser.role) && location.pathname.startsWith('/customer')) {
-      const adminPath = currentUser.role === 'manager' ? 'dashboard' : (currentUser.role === 'waiter' ? 'tables' : 'orders');
+      const adminPath = currentUser.role === 'manager' 
+        ? 'dashboard' 
+        : currentUser.role === 'waiter' 
+          ? 'tables' 
+          : 'orders';
       return <Navigate to={`/admin/${adminPath}`} replace />;
     }
   }
