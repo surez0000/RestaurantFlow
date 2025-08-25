@@ -1,0 +1,280 @@
+/* Auth Pages Styles */
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 20px;
+}
+
+.auth-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  z-index: 0;
+}
+
+.auth-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.auth-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 480px;
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  padding: 40px 32px !important;
+}
+
+.dark .auth-card {
+  background: rgba(20, 20, 20, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.auth-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.logo-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: white;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.auth-form {
+  margin-bottom: 24px;
+}
+
+.auth-form .ant-form-item-label > label {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.dark .auth-form .ant-form-item-label > label {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.auth-form .ant-input,
+.auth-form .ant-input-password,
+.auth-form .ant-select-selector {
+  border-radius: 8px;
+  border: 2px solid #f0f0f0;
+  transition: all 0.3s ease;
+  height: 48px;
+  font-size: 16px;
+}
+
+.auth-form .ant-input:focus,
+.auth-form .ant-input-password:focus,
+.auth-form .ant-input-focused,
+.auth-form .ant-input-password-focused,
+.auth-form .ant-select-focused .ant-select-selector {
+  border-color: var(--accent-color, #1890ff);
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.auth-form .ant-input-prefix {
+  margin-right: 12px;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.dark .auth-form .ant-input-prefix {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.auth-form .ant-btn-primary {
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.auth-form .ant-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(24, 144, 255, 0.4);
+}
+
+.demo-buttons {
+  margin-bottom: 24px;
+}
+
+.demo-buttons .ant-btn {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.demo-buttons .ant-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.auth-footer {
+  text-align: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dark .auth-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.auth-footer .ant-typography {
+  font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 16px;
+  }
+  
+  .auth-card {
+    padding: 32px 24px !important;
+  }
+  
+  .auth-content {
+    max-width: 100%;
+  }
+  
+  .logo-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+  }
+  
+  .auth-form .ant-input,
+  .auth-form .ant-input-password,
+  .auth-form .ant-select-selector {
+    height: 44px;
+    font-size: 16px;
+  }
+  
+  .auth-form .ant-btn-primary {
+    height: 44px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 12px;
+  }
+  
+  .auth-card {
+    padding: 24px 20px !important;
+  }
+  
+  .auth-header {
+    margin-bottom: 24px;
+  }
+  
+  .auth-logo {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .demo-buttons .ant-space-item {
+    width: 100%;
+  }
+}
+
+/* Animation for success state */
+.auth-success-animation {
+  animation: successPulse 2s ease-in-out infinite;
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Form validation styles */
+.auth-form .ant-form-item-has-error .ant-input,
+.auth-form .ant-form-item-has-error .ant-input-password,
+.auth-form .ant-form-item-has-error .ant-select-selector {
+  border-color: #ff4d4f;
+}
+
+.auth-form .ant-form-item-has-error .ant-input:focus,
+.auth-form .ant-form-item-has-error .ant-input-password:focus,
+.auth-form .ant-form-item-has-error .ant-input-focused,
+.auth-form .ant-form-item-has-error .ant-input-password-focused {
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+}
+
+/* Loading state improvements */
+.auth-form .ant-btn-loading {
+  pointer-events: none;
+}
+
+.auth-form .ant-btn-loading .ant-btn-loading-icon {
+  margin-right: 8px;
+}
+
+/* Checkbox styling */
+.auth-form .ant-checkbox-wrapper {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.auth-form .ant-checkbox-wrapper .ant-checkbox {
+  margin-right: 8px;
+}
+
+/* Select dropdown styling */
+.auth-form .ant-select-dropdown {
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.auth-form .ant-select-item {
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin: 4px 8px;
+}
+
+.auth-form .ant-select-item-option-selected {
+  background-color: rgba(24, 144, 255, 0.1);
+  font-weight: 600;
+}

@@ -11,7 +11,12 @@ import {
 import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
 import { CartProvider, useCart } from './contexts/CartContext';
 import { RoleProvider } from './contexts/RoleContext';
+import { useAuth } from './hooks/useAuth';
 import ThemeControls from './components/ThemeControls';
+
+// Import Auth Pages
+import LoginPage from './pages/auth/LoginPage';
+import SignupPage from './pages/auth/SignupPage';
 
 // Import Pages
 import CustomerMenu from './pages/customer/CustomerMenu'; // Renamed for consistency
@@ -42,84 +47,92 @@ const ChefMenuAvailabilityPage = () => <Typography.Title level={2} style={{textA
 //const WaiterTakeOrderPage = () => <Typography.Title level={2} style={{textAlign: 'center', marginTop: 20}}>Take Order / New KOT (Waiter)</Typography.Title>;
 
 
-const LoginPage = ({ onLogin, loading }) => (
-    <Layout style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <Space direction="vertical" align="center" size="large" style={{ padding: '50px', background: 'rgba(255,255,255,0.9)', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}>
-            <Typography.Title level={2} style={{ color: '#1890ff' }}>RestauFlow Login</Typography.Title>
-            {loading ? <Spin size="large" /> : (
-                <>
-                    <Button type="primary" size="large" block onClick={() => onLogin('customer')} icon={<UserOutlined />}>Login as Customer</Button>
-                    <Button size="large" block onClick={() => onLogin('manager')} icon={<SolutionOutlined />}>Login as Manager</Button>
-                    <Button size="large" block onClick={() => onLogin('chef')} icon={<ShopOutlined />}>Login as Chef</Button>
-                    <Button size="large" block onClick={() => onLogin('waiter')} icon={<DesktopOutlined />}>Login as Waiter</Button>
-                </>
-            )}
-        </Space>
-    </Layout>
-);
-
-const useAuthHook = () => {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('restauflow-user')));
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (user) {
-      localStorage.setItem('restauflow-user', JSON.stringify(user));
-    } else {
-      localStorage.removeItem('restauflow-user');
-    }
-  }, [user]);
-
-  const login = (role) => {
-    setLoading(true);
-    setTimeout(() => {
-      setUser({ role, name: role.charAt(0).toUpperCase() + role.slice(1) });
-      setLoading(false);
-    }, 500);
-  };
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('restauflow-cart');
-    window.location.href = '/login'; // Force reload
-  };
-
-  return { user, login, logout, loadingAuth: loading };
-};
-
-
 const AppContent = () => {
-  const { user, login, logout, loadingAuth } = useAuthHook();
+  const { user, profile, loading: loadingAuth, signOut } = useAuth();
   const location = useLocation();
 
+  const currentUser = user || profile;
+
+  // Show loading spinner during authentication
   if (loadingAuth) {
-    return <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}><Spin size="large" tip="Authenticating..." /></div>;
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Spin size="large" tip="Loading..." />
+      </div>
+    );
   }
 
-  if (!user && location.pathname !== '/login') {
-    return <Navigate to="/login" replace />;
+  // Redirect unauthenticated users to login
+  if (!currentUser && !location.pathname.startsWith('/auth')) {
+    return <Navigate to="/auth/login" replace />;
   }
-  if (user && location.pathname === '/login') {
-    return <Navigate to={user.role === 'customer' ? "/customer/home" : `/admin/${user.role === 'manager' ? 'dashboard' : (user.role === 'waiter' ? 'tables' : 'orders')}`} replace />;
+  
+  // Redirect authenticated users away from auth pages
+  if (currentUser && location.pathname.startsWith('/auth')) {
+    const redirectPath = currentUser.role === 'customer' 
+      ? "/customer/home" 
+      : `/admin/${currentUser.role === 'manager' ? 'dashboard' : (currentUser.role === 'waiter' ? 'tables' : 'orders')}`;
+    return <Navigate to={redirectPath} replace />;
   }
-  if (!user && location.pathname === '/login') {
-    return <LoginPage onLogin={login} loading={loadingAuth} />;
+  
+  // Show auth pages for unauthenticated users
+  if (!currentUser && location.pathname.startsWith('/auth')) {
+    return (
+      <Routes>
+        <Route path="/auth/login" element={<LoginPage />} />
+        <Route path="/auth/signup" element={<SignupPage />} />
+        <Route path="/auth/*" element={<Navigate to="/auth/login" replace />} />
+      </Routes>
+    );
   }
 
-  if (user) {
-    if (user.role === 'customer' && location.pathname.startsWith('/admin')) {
+  // Role-based route protection
+  if (currentUser) {
+    if (currentUser.role === 'customer' && location.pathname.startsWith('/admin')) {
       return <Navigate to="/customer/home" replace />;
     }
-    if (['manager', 'chef', 'waiter'].includes(user.role) && location.pathname.startsWith('/customer')) {
-      return <Navigate to={`/admin/${user.role === 'manager' ? 'dashboard' : (user.role === 'waiter' ? 'tables' : 'orders')}`} replace />;
+    if (['manager', 'chef', 'waiter'].includes(currentUser.role) && location.pathname.startsWith('/customer')) {
+      const adminPath = currentUser.role === 'manager' ? 'dashboard' : (currentUser.role === 'waiter' ? 'tables' : 'orders');
+      return <Navigate to={`/admin/${adminPath}`} replace />;
     }
   }
 
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage onLogin={login} loading={loadingAuth} />} />
-      <Route path="/customer/*" element={user?.role === 'customer' ? <CustomerLayout user={user} onLogout={logout} /> : <Navigate to="/login" replace />} />
-      <Route path="/admin/*" element={user && ['manager', 'chef', 'waiter'].includes(user.role) ? <AdminLayout user={user} onLogout={logout} /> : <Navigate to="/login" replace />} />
-      <Route path="*" element={<Navigate to={user ? (user.role === 'customer' ? "/customer/home" : `/admin/${user.role === 'manager' ? 'dashboard' : (user.role === 'waiter' ? 'tables' : 'orders')}`) : "/login"} replace />} />
+      <Route path="/auth/login" element={<LoginPage />} />
+      <Route path="/auth/signup" element={<SignupPage />} />
+      <Route 
+        path="/customer/*" 
+        element={
+          currentUser?.role === 'customer' 
+            ? <CustomerLayout user={currentUser} onLogout={signOut} /> 
+            : <Navigate to="/auth/login" replace />
+        } 
+      />
+      <Route 
+        path="/admin/*" 
+        element={
+          currentUser && ['manager', 'chef', 'waiter'].includes(currentUser.role) 
+            ? <AdminLayout user={currentUser} onLogout={signOut} /> 
+            : <Navigate to="/auth/login" replace />
+        } 
+      />
+      <Route 
+        path="*" 
+        element={
+          <Navigate 
+            to={
+              currentUser 
+                ? (currentUser.role === 'customer' 
+                    ? "/customer/home" 
+                    : `/admin/${currentUser.role === 'manager' ? 'dashboard' : (currentUser.role === 'waiter' ? 'tables' : 'orders')}`
+                  )
+                : "/auth/login"
+            } 
+            replace 
+          />
+        } 
+      />
     </Routes>
   );
 };
