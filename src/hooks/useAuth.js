@@ -84,7 +84,8 @@ export const useAuth = () => {
         name: userData.full_name || email.split('@')[0],
         full_name: userData.full_name || '',
         phone: userData.phone || '',
-        avatar_url: null
+        avatar_url: null,
+        restaurant_name: userData.restaurant_name || null
       }
 
       setUser(newUser)

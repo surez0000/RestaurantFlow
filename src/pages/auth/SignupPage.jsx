@@ -39,11 +39,12 @@ const SignupPage = () => {
       
       // Auto redirect after successful signup
       setTimeout(() => {
-        const user = data.user;
-        if (user.role === 'customer') {
+        if (data.user.role === 'customer') {
           navigate('/customer/home', { replace: true });
         } else {
-          navigate('/admin/dashboard', { replace: true });
+          const adminPath = data.user.role === 'manager' ? '/admin/dashboard' : 
+                           data.user.role === 'waiter' ? '/admin/tables' : '/admin/orders';
+          navigate(adminPath, { replace: true });
         }
       }, 2000);
       
